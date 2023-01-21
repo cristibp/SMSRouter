@@ -14,7 +14,7 @@ class RouteRepository {
 
     private final RouteDao routeDao;
     private final LiveData<List<Route>> getRoutes;
-    private final List<Route> getActiveRoutes;
+    private List<Route> getActiveRoutes;
 
     // Note that in order to unit test this repo, you have to remove the Application
     // dependency. This adds complexity and much more code, and this sample is not about testing.
@@ -33,6 +33,7 @@ class RouteRepository {
         return getRoutes;
     }
     List<Route> getActiveRoutes() {
+        getActiveRoutes = routeDao.getActiveRoutes();
         return getActiveRoutes;
     }
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures

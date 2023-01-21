@@ -24,7 +24,7 @@ public class RouteViewModel extends AndroidViewModel {
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     private final LiveData<List<Route>> allRoutes;
-    private final List<Route> activeRoutes;
+    private List<Route> activeRoutes;
 
     public RouteViewModel(Application application) {
         super(application);
@@ -38,6 +38,7 @@ public class RouteViewModel extends AndroidViewModel {
     }
 
     public List<Route> getActiveRoutes() {
+        activeRoutes = mRepository.getActiveRoutes();
         return activeRoutes;
     }
 
