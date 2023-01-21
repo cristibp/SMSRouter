@@ -9,19 +9,26 @@ import androidx.recyclerview.widget.ListAdapter;
 
 public class RouteListAdapter extends ListAdapter<Route, RouteViewHolder> {
 
-    public RouteListAdapter(@NonNull DiffUtil.ItemCallback<Route> diffCallback) {
+    private final RouteViewModel mRouteViewModel;
+    public RouteListAdapter(@NonNull DiffUtil.ItemCallback<Route> diffCallback, RouteViewModel mRouteViewModel) {
         super(diffCallback);
+        this.mRouteViewModel = mRouteViewModel;
     }
 
+    @NonNull
     @Override
-    public RouteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return RouteViewHolder.create(parent);
+    public RouteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return RouteViewHolder.create(parent, mRouteViewModel);
     }
 
     @Override
     public void onBindViewHolder(RouteViewHolder holder, int position) {
         Route current = getItem(position);
         holder.bind(current.getUrl(), current.getSms(), current.isActive());
+        holder.getRemoveButton().setOnClickListener(v -> mRouteViewModel.remove(current.getId()));
+        holder.getStatus().setOnClickListener(v-> {
+          mRouteViewModel.flipRouteActivation(current);
+        });
     }
 
     static class RouteDiff extends DiffUtil.ItemCallback<Route> {

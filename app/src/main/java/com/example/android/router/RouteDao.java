@@ -28,11 +28,18 @@ public interface RouteDao {
     @Query("SELECT * FROM Route")
     LiveData<List<Route>> getRoutes();
 
-    @Query("SELECT * FROM Route where active = true")
-    LiveData<List<Route>> getActiveRoutes();
+    @Query("SELECT * FROM Route WHERE active = 1")
+    List<Route> getActiveRoutes();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Route route);
 
     @Query("DELETE FROM Route")
     void deleteAll();
+
+    @Query("UPDATE Route SET active = 1 WHERE id = :id")
+    void activateRoute(Long id);
+    @Query("UPDATE Route SET active = 0 WHERE id = :id")
+    void deactivateRoute(Long id);
+    @Query("DELETE FROM Route WHERE id = :id")
+    void delete(Long id);
 }

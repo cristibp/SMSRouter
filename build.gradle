@@ -35,7 +35,7 @@ ext {
     roomVersion = '2.3.0'
     // testing
     junitVersion = '4.13.2'
-    espressoVersion = '3.1.0'
+    espressoVersion = '3.5.1'
     androidxJunitVersion = '1.1.2'
 }
 

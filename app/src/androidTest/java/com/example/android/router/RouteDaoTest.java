@@ -16,6 +16,8 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import java.util.List;
+
 /**
  * This is not meant to be a full set of tests. For simplicity, most of your samples do not
  * include tests. However, when building the Room, it is helpful to make sure it works before
@@ -40,7 +42,7 @@ public class RouteDaoTest {
                 // Allowing main thread queries, just for testing.
                 .allowMainThreadQueries()
                 .build();
-        mRouteDao = mDb.RouteDao();
+        mRouteDao = mDb.routeDao();
     }
 
     @After
@@ -50,31 +52,31 @@ public class RouteDaoTest {
 
     @Test
     public void insertAndGetRoute() throws Exception {
-        Route Route = new Route("Route");
-        mRouteDao.insert(Route);
-        List<Route> allRoutes = LiveDataTestUtil.getValue(mRouteDao.getAlphabetizedRoutes());
-        assertEquals(allRoutes.get(0).getRoute(), Route.getRoute());
+        Route route = new Route("http://google.ro","2888",1);
+        mRouteDao.insert(route);
+        List<Route> allRoutes = LiveDataTestUtil.getValue(mRouteDao.getRoutes());
+        assertEquals(allRoutes.get(0), route);
     }
 
     @Test
     public void getAllRoutes() throws Exception {
-        Route Route = new Route("aaa");
-        mRouteDao.insert(Route);
-        Route Route2 = new Route("bbb");
-        mRouteDao.insert(Route2);
-        List<Route> allRoutes = LiveDataTestUtil.getValue(mRouteDao.getAlphabetizedRoutes());
-        assertEquals(allRoutes.get(0).getRoute(), Route.getRoute());
-        assertEquals(allRoutes.get(1).getRoute(), Route2.getRoute());
+        Route route1 = new Route("http://google.ro","1222",1);
+        mRouteDao.insert(route1);
+        Route route2 = new Route("http://facebook.com","2888",1);
+        mRouteDao.insert(route2);
+        List<Route> allRoutes = LiveDataTestUtil.getValue(mRouteDao.getRoutes());
+        assertEquals(allRoutes.get(0), route1);
+        assertEquals(allRoutes.get(1), route2);
     }
 
     @Test
     public void deleteAll() throws Exception {
-        Route Route = new Route("Route");
+        Route Route = new Route("http://google.ro","1222",1);
         mRouteDao.insert(Route);
-        Route Route2 = new Route("Route2");
+        Route Route2 = new Route("http://facebook.com","2888",1);
         mRouteDao.insert(Route2);
         mRouteDao.deleteAll();
-        List<Route> allRoutes = LiveDataTestUtil.getValue(mRouteDao.getAlphabetizedRoutes());
+        List<Route> allRoutes = LiveDataTestUtil.getValue(mRouteDao.getRoutes());
         assertTrue(allRoutes.isEmpty());
     }
 }

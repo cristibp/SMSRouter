@@ -46,6 +46,12 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
+    //Dagger 2
+    implementation 'com.google.dagger:dagger-android:2.44.2'
+    implementation 'com.google.dagger:dagger-android-support:2.44.2' // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.44.2'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.44.2'
+
     // Testing
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"

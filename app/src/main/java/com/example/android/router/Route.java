@@ -22,7 +22,6 @@ import java.util.UUID;
 public class Route {
 
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     @ColumnInfo(name = "id")
     private long id;
 
@@ -33,11 +32,10 @@ public class Route {
     @ColumnInfo(name = "sms")
     private final String sms;
 
-    @NonNull
     @ColumnInfo(name = "active")
-    private final boolean active;
+    private final int active;
 
-    public Route(@NonNull String url, @NonNull String sms, boolean active) {
+    public Route(@NonNull String url, @NonNull String sms, int active) {
         this.url = url;
         this.sms = sms;
         this.active = active;
@@ -63,6 +61,10 @@ public class Route {
     }
 
     public boolean isActive() {
+        return active == 1;
+    }
+
+    public int getActive() {
         return active;
     }
 }

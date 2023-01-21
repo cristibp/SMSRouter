@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Route.class}, version = 2, exportSchema = false)
+@Database(entities = {Route.class}, version = 3, exportSchema = false)
 abstract class RouteRoomDatabase extends RoomDatabase {
 
     abstract RouteDao routeDao();
@@ -29,6 +29,7 @@ abstract class RouteRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             RouteRoomDatabase.class, "route_table")
                             .addCallback(sRoomDatabaseCallback)
+                            .allowMainThreadQueries()
                             .build();
                 }
             }

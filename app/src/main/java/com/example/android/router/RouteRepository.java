@@ -12,9 +12,9 @@ import java.util.List;
 
 class RouteRepository {
 
-    private RouteDao routeDao;
-    private LiveData<List<Route>> getRoutes;
-    private LiveData<List<Route>> getActiveRoutes;
+    private final RouteDao routeDao;
+    private final LiveData<List<Route>> getRoutes;
+    private final List<Route> getActiveRoutes;
 
     // Note that in order to unit test this repo, you have to remove the Application
     // dependency. This adds complexity and much more code, and this sample is not about testing.
@@ -32,7 +32,7 @@ class RouteRepository {
     LiveData<List<Route>> getRoutes() {
         return getRoutes;
     }
-    LiveData<List<Route>> getActiveRoutes() {
+    List<Route> getActiveRoutes() {
         return getActiveRoutes;
     }
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
@@ -40,6 +40,22 @@ class RouteRepository {
     void insert(Route route) {
         RouteRoomDatabase.databaseWriteExecutor.execute(() -> {
             routeDao.insert(route);
+        });
+    }
+    void delete(Long id) {
+        RouteRoomDatabase.databaseWriteExecutor.execute(() -> {
+            routeDao.delete(id);
+        });
+    }
+
+    void activateRoute(Long id) {
+        RouteRoomDatabase.databaseWriteExecutor.execute(() -> {
+            routeDao.activateRoute(id);
+        });
+    }
+    void deactivateRoute(Long id) {
+        RouteRoomDatabase.databaseWriteExecutor.execute(() -> {
+            routeDao.deactivateRoute(id);
         });
     }
 }

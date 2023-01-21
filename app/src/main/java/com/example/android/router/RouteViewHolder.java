@@ -19,6 +19,7 @@ package com.example.android.router;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -28,12 +29,16 @@ class RouteViewHolder extends RecyclerView.ViewHolder {
     private final TextView textViewSMS;
     private final TextView textViewURL;
     private final Switch status;
+    private final  RouteViewModel mRouteViewModel;
+    private final Button removeButton;
 
-    private RouteViewHolder(View itemView) {
+    private RouteViewHolder(View itemView, RouteViewModel mRouteViewModel) {
         super(itemView);
+        this.mRouteViewModel = mRouteViewModel;
         textViewSMS = itemView.findViewById(R.id.textViewSMS);
         textViewURL = itemView.findViewById(R.id.textViewURL);
         status = itemView.findViewById(R.id.status);
+        removeButton = itemView.findViewById(R.id.removeRoute);
     }
 
     public void bind(String text, String sms, boolean active) {
@@ -42,9 +47,29 @@ class RouteViewHolder extends RecyclerView.ViewHolder {
         status.setChecked(active);
     }
 
-    static RouteViewHolder create(ViewGroup parent) {
+    static RouteViewHolder create(ViewGroup parent, RouteViewModel mRouteViewModel) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_item, parent, false);
-        return new RouteViewHolder(view);
+        return new RouteViewHolder(view, mRouteViewModel);
+    }
+
+    public TextView getTextViewSMS() {
+        return textViewSMS;
+    }
+
+    public TextView getTextViewURL() {
+        return textViewURL;
+    }
+
+    public Switch getStatus() {
+        return status;
+    }
+
+    public RouteViewModel getmRouteViewModel() {
+        return mRouteViewModel;
+    }
+
+    public Button getRemoveButton() {
+        return removeButton;
     }
 }
