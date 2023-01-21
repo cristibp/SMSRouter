@@ -47,7 +47,7 @@ public class SmsListener extends BroadcastReceiver {
                     Map<String, String> routes = mRouteViewModel.getRoutesBySMS();
                     String url = routes.get(msg_from);
                     if (url == null) {
-                        Toast.makeText(context, "No route defined for " + msg_from, Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "No active route defined for " + msg_from, Toast.LENGTH_LONG).show();
                     }
 
                     StringBuilder msgBody = new StringBuilder();
