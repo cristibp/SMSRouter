@@ -1,6 +1,5 @@
 package com.example.android.router.listener;
 
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,24 +9,21 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModelProvider;
-
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.Response;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.android.router.MainActivity;
 import com.example.android.router.RouteViewModel;
 import com.example.android.router.component.MyApplication;
 
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
-import javax.inject.Inject;
-
-import dagger.android.DaggerApplication;
-import dagger.android.DaggerBroadcastReceiver;
 
 
 public class SmsListener extends BroadcastReceiver {
@@ -59,13 +55,21 @@ public class SmsListener extends BroadcastReceiver {
                     JSONObject jsonPayload = new JSONObject();
                     jsonPayload.put("text", "*" + msg_from + "*" + "\n" + msgBody);
 
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonPayload, response -> {
-                        String status = response.toString();
-                        Toast.makeText(context, "Message status " + status, Toast.LENGTH_LONG).show();
+                    JsonRequest<String> jsonObjectRequest = new JsonRequest<String>(Request.Method.POST, url, jsonPayload.toString(), response -> {
+                        Toast.makeText(context, "Message status " + response, Toast.LENGTH_LONG).show();
                     }, error -> {
                         Toast.makeText(context, "Cannot send the message", Toast.LENGTH_LONG).show();
                         Log.e("SMSListener", "error: " + error);
-                    });
+                    }) {
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            try {
+                                return Response.success(new String(response.data, StandardCharsets.UTF_8), HttpHeaderParser.parseCacheHeaders(response));
+                            } catch (Exception e) {
+                                return Response.error(new ParseError(e));
+                            }
+                        }
+                    };
                     volleyQueue.add(jsonObjectRequest);
 
                 } catch (Exception e) {
