@@ -31,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         // Get a new or existing ViewModel from the ViewModelProvider.
-        mRouteViewModel = ((MyApplication) super.getApplicationContext()).getRouteViewModel();
+        MyApplication applicationContext = (MyApplication) super.getApplicationContext();
+        mRouteViewModel = applicationContext.getRouteViewModel();
 
        // mRouteViewModel = new ViewModelProvider(this).get(RouteViewModel.class);
 
-        final RouteListAdapter adapter = new RouteListAdapter(new RouteListAdapter.RouteDiff(), mRouteViewModel);
+        final RouteListAdapter adapter = new RouteListAdapter(new RouteListAdapter.RouteDiff(), mRouteViewModel,applicationContext);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layout = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layout);

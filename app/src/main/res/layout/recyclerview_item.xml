@@ -26,6 +26,7 @@ limitations under the License. -->
         android:layout_width="354dp"
         android:layout_height="46dp"
         android:layout_marginStart="1dp"
+        android:longClickable="true"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp" />
 

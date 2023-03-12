@@ -23,23 +23,23 @@ limitations under the License. -->
         android:id="@+id/edit_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/min_height"
+        android:layout_margin="@dimen/big_padding"
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_url"
         android:inputType="textAutoComplete"
-        android:layout_margin="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:minHeight="@dimen/min_height"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/edit_text_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:minHeight="@dimen/min_height"
         android:layout_margin="@dimen/big_padding"
-        android:hint="SMS phone number"
-        android:inputType="phone"
-        android:textSize="18sp" />
+        android:fontFamily="sans-serif-light"
+        android:hint="Phone number / Provider name / * for all"
+        android:inputType="text"
+        android:minHeight="@dimen/min_height"
+        android:textSize="14sp" />
     <Button
             android:id="@+id/button_save"
             android:layout_width="match_parent"

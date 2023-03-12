@@ -1,18 +1,27 @@
 package com.example.android.router;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
+
+import com.example.android.router.component.MyApplication;
 
 
 public class RouteListAdapter extends ListAdapter<Route, RouteViewHolder> {
 
     private final RouteViewModel mRouteViewModel;
-    public RouteListAdapter(@NonNull DiffUtil.ItemCallback<Route> diffCallback, RouteViewModel mRouteViewModel) {
+    private final MyApplication applicationContext;
+
+    public RouteListAdapter(@NonNull DiffUtil.ItemCallback<Route> diffCallback, RouteViewModel mRouteViewModel, MyApplication applicationContext) {
         super(diffCallback);
         this.mRouteViewModel = mRouteViewModel;
+        this.applicationContext = applicationContext;
     }
 
     @NonNull
@@ -26,8 +35,15 @@ public class RouteListAdapter extends ListAdapter<Route, RouteViewHolder> {
         Route current = getItem(position);
         holder.bind(current.getUrl(), current.getSms(), current.isActive());
         holder.getRemoveButton().setOnClickListener(v -> mRouteViewModel.remove(current.getId()));
-        holder.getStatus().setOnClickListener(v-> {
-          mRouteViewModel.flipRouteActivation(current);
+        holder.getStatus().setOnClickListener(v -> {
+            mRouteViewModel.flipRouteActivation(current);
+        });
+        holder.getTextViewURL().setOnLongClickListener(v -> {
+            String textViewUrl = holder.getTextViewURL().getText().toString();
+            ClipboardManager clipboard = (ClipboardManager) applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("url", textViewUrl);
+            clipboard.setPrimaryClip(clip);
+            return true;
         });
     }
 
